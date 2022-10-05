@@ -9,10 +9,22 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 # AWS CLI v2
 echo "(dotfiles-online installer) Installing AWS CLI v2..."
-cd ~
-sudo curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-sudo installer -pkg AWSCLIV2.pkg -target /
-sudo rm AWSCLIV2.pkg
+AWS_CLI_V2_URL='https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'
+curl "${AWS_CLI_V2_URL}" -o "awscliv2.zip" &&
+  unzip awscliv2.zip &&
+  ./aws/install -i /workspace/aws-cli -b ${WORKSPACE_BIN}
+alias aws="${WORKSPACE_BIN}/aws"
+
+cat <<EOF >~/.aws/config
+[${DEFAULT_PROFILE}]
+credential_process = ${WORKSPACE_BIN}/aws-sso-credential-process
+sso_start_url = ${SSO_START_URL}
+sso_region = ${SSO_REGION}
+sso_account_id = ${SSO_ACCOUNT_ID}
+sso_role_name =${SSO_ROLE_NAME}
+region = ${DEFAULT_REGION}
+output = ${DEFAULT_OUTPUT}
+EOF
 
 #########
 # Fonts #
