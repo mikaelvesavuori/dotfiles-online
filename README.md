@@ -21,15 +21,7 @@ What they do:
 
 ### Tools
 
-- Homebrew
-- CLI tools for AWS, Google Cloud Platform and Azure (--> homebrew)
-- Node/npm (--> homebrew)
-- Deno (--> homebrew)
-- Yarn (--> homebrew)
-- Python 3.x (--> homebrew)
-- Serverless Framework globally (--> NPM)
-- Typescript globally (--> NPM)
-- Xcode
+- CLI tools for AWS
 
 ## Styling
 
