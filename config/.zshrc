@@ -1,14 +1,9 @@
-export USERNAME=
-
 source ~/.dotfiles/.functions
 source ~/.dotfiles/.alias
 source ~/.dotfiles/.env
 
 # enable the default zsh completions!
 autoload -Uz compinit && compinit
-
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/$USERNAME/.oh-my-zsh"
 
 ZSH_THEME="agnoster"
 

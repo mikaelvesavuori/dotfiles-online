@@ -6,9 +6,7 @@ Assumes you run Mac, but should work fine for Linux given some small configurati
 
 ## Important prep steps
 
-1. **Before you do anything**, make sure to add your own `username` (usually `firstnamelastname`) at `export USERNAME=` in `/config/.zshrc`.
-
-2. **Navigate to the root (`~`) of your computer and run the scripts, as the scripts assume you are at root level!**
+**Navigate to the root (`~`) of your computer and run the scripts, as the scripts assume you are at root level!**
 
 What they do:
 
