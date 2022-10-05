@@ -1,3 +1,8 @@
+#!/bin/bash
+TMPDIR=$(mktemp -d)
+CURRENT=$PWD
+cd $TMPDIR
+
 AWS_CLI_V2_URL='https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'
 WORKSPACE_BIN='/workspace/bin'
 DEFAULT_PROFILE='default'
@@ -48,14 +53,6 @@ EOF
 # Fonts #
 #########
 
-# Install Powerline fonts
-echo "(dotfiles-online installer) Installing Powerline fonts..."
-git clone https://github.com/powerline/fonts.git --depth=1
-cd fonts
-./install.sh
-cd ..
-rm -rf fonts
-
 # Install Fira Code font
 echo "(dotfiles-online installer) Installing Fira Code font..."
 mkdir fira-code
@@ -79,16 +76,12 @@ rm -rf Fira
 echo "(dotfiles-online installer) Laying out the dotfiles on your system..."
 cd dotfiles
 
-# Root level files
-cp config/.gitignore_global ~/
-cp config/.gitconfig ~/
-cp config/.inputrc ~/
-cp config/.zshrc ~/
-
-# Bash dotfiles + Mac OSX settings
-mkdir -p ~/.dotfiles/
-cp system/.alias ~/.dotfiles/
-cp system/.env ~/.dotfiles/
+cp ~/.dotfiles/config/.gitignore_global ~/
+cp ~/.dotfiles/config/.gitconfig ~/
+cp ~/.dotfiles/config/.inputrc ~/
+cp ~/.dotfiles/config/.zshrc ~/
+cp ~/.dotfiles/system/.alias ~/
+cp ~/.dotfiles/system/.env ~/
 
 cd ..
 
@@ -96,9 +89,6 @@ cd ..
 # Finish #
 ##########
 
-# Run zsh compaudit
-echo "(dotfiles-online installer) Zsh compaudit/compinit..."
-compaudit
-compinit -i
-
+cd $CURRENT
+rm -rf $TMPDIR
 echo "(dotfiles-online installer) Done!"
