@@ -3,6 +3,7 @@ echo "(dotfiles-online installer) Setting up online environment..."
 ###########
 # Install #
 ###########
+
 # Install Oh My Zsh
 echo "(dotfiles-online installer) Installing Oh My Zsh..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -14,6 +15,13 @@ curl "${AWS_CLI_V2_URL}" -o "awscliv2.zip" &&
   unzip awscliv2.zip &&
   ./aws/install -i /workspace/aws-cli -b ${WORKSPACE_BIN}
 alias aws="${WORKSPACE_BIN}/aws"
+
+#############
+# Setup AWS #
+#############
+
+aws configure set credential_process ${WORKSPACE_BIN}/aws-sso-credential-process
+touch ~/.aws/credentials && chmod 600 $_
 
 cat <<EOF >~/.aws/config
 [${DEFAULT_PROFILE}]
@@ -29,6 +37,7 @@ EOF
 #########
 # Fonts #
 #########
+
 # Install Powerline fonts
 echo "(dotfiles-online installer) Installing Powerline fonts..."
 git clone https://github.com/powerline/fonts.git --depth=1
@@ -56,6 +65,7 @@ rm -rf Fira
 ###############################################
 # Start laying out the dotfiles on the system #
 ###############################################
+
 echo "(dotfiles-online installer) Laying out the dotfiles on your system..."
 cd dotfiles
 
@@ -75,6 +85,7 @@ cd ..
 ##########
 # Finish #
 ##########
+
 # Run zsh compaudit
 echo "(dotfiles-online installer) Zsh compaudit/compinit..."
 compaudit
