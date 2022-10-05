@@ -1,0 +1,16 @@
+#!/bin/bash
+
+alias gaa="git add --all"
+alias gp="git push"
+alias gitit="git add .;git commit -m 'Update';git push"
+
+# Make sure to alias Python 3 and not any other version
+alias python=/usr/local/bin/python3
+
+# And ensure that newer Pip is used
+alias pip=/usr/local/bin/pip3
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
