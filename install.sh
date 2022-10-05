@@ -1,3 +1,9 @@
+AWS_CLI_V2_URL='https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'
+WORKSPACE_BIN='/workspace/bin'
+DEFAULT_PROFILE='default'
+
+export PATH=${WORKSPACE_BIN}:${PATH}
+
 echo "(dotfiles-online installer) Setting up online environment..."
 
 ###########
@@ -10,7 +16,6 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 # AWS CLI v2
 echo "(dotfiles-online installer) Installing AWS CLI v2..."
-AWS_CLI_V2_URL='https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'
 curl "${AWS_CLI_V2_URL}" -o "awscliv2.zip" &&
   unzip awscliv2.zip &&
   ./aws/install -i /workspace/aws-cli -b ${WORKSPACE_BIN}
@@ -19,6 +24,11 @@ alias aws="${WORKSPACE_BIN}/aws"
 #############
 # Setup AWS #
 #############
+
+cd ${WORKSPACE_BIN} &&
+  curl -o aws-sso-credential-process "${CRED_PROCESS_URL}" &&
+  chmod +x aws-sso-credential-process &&
+  cd ${PROJECT_DIR}
 
 aws configure set credential_process ${WORKSPACE_BIN}/aws-sso-credential-process
 touch ~/.aws/credentials && chmod 600 $_
