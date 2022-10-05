@@ -3,12 +3,6 @@ TMPDIR=$(mktemp -d)
 CURRENT=$PWD
 cd $TMPDIR
 
-AWS_CLI_V2_URL='https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'
-WORKSPACE_BIN='/workspace/bin'
-DEFAULT_PROFILE='default'
-
-export PATH=${WORKSPACE_BIN}:${PATH}
-
 echo "(dotfiles-online installer) Setting up online environment..."
 
 ###########
@@ -16,38 +10,14 @@ echo "(dotfiles-online installer) Setting up online environment..."
 ###########
 
 # Install Oh My Zsh
-echo "(dotfiles-online installer) Installing Oh My Zsh..."
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#echo "(dotfiles-online installer) Installing Oh My Zsh..."
+#sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # AWS CLI v2
 echo "(dotfiles-online installer) Installing AWS CLI v2..."
-curl "${AWS_CLI_V2_URL}" -o "awscliv2.zip" &&
-  unzip awscliv2.zip &&
-  ./aws/install -i /workspace/aws-cli -b ${WORKSPACE_BIN}
-alias aws="${WORKSPACE_BIN}/aws"
-
-#############
-# Setup AWS #
-#############
-
-cd ${WORKSPACE_BIN} &&
-  curl -o aws-sso-credential-process "${CRED_PROCESS_URL}" &&
-  chmod +x aws-sso-credential-process &&
-  cd ${PROJECT_DIR}
-
-aws configure set credential_process ${WORKSPACE_BIN}/aws-sso-credential-process
-touch ~/.aws/credentials && chmod 600 $_
-
-cat <<EOF >~/.aws/config
-[${DEFAULT_PROFILE}]
-credential_process = ${WORKSPACE_BIN}/aws-sso-credential-process
-sso_start_url = ${SSO_START_URL}
-sso_region = ${SSO_REGION}
-sso_account_id = ${SSO_ACCOUNT_ID}
-sso_role_name =${SSO_ROLE_NAME}
-region = ${DEFAULT_REGION}
-output = ${DEFAULT_OUTPUT}
-EOF
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 
 #########
 # Fonts #
@@ -59,31 +29,15 @@ mkdir fira-code
 cd fira-code
 curl https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip -o fira-code.zip -s -L
 unzip fira-code.zip
-cp ttf/*.ttf ~/Library/Fonts/
+cp ttf/*.ttf ~/
 cd ..
 rm -rf fira-code
 
 # Install regular Fira font (OTF version)
 echo "(dotfiles-online installer) Installing Fira font..."
 git clone https://github.com/mozilla/Fira.git --depth=1
-cp Fira/otf/*.otf ~/Library/Fonts/
+cp Fira/otf/*.otf ~/
 rm -rf Fira
-
-###############################################
-# Start laying out the dotfiles on the system #
-###############################################
-
-echo "(dotfiles-online installer) Laying out the dotfiles on your system..."
-cd dotfiles
-
-cp ~/.dotfiles/config/.gitignore_global ~/
-cp ~/.dotfiles/config/.gitconfig ~/
-cp ~/.dotfiles/config/.inputrc ~/
-cp ~/.dotfiles/config/.zshrc ~/
-cp ~/.dotfiles/system/.alias ~/
-cp ~/.dotfiles/system/.env ~/
-
-cd ..
 
 ##########
 # Finish #
